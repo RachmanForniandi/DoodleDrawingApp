@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="image"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
 
         <rachman.forniandi.doodledrawingapp.DrawingView
             android:id="@+id/drawing_view"
@@ -133,6 +133,18 @@
         app:layout_constraintBottom_toTopOf="@id/line_paint_colors"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/img_button_gallery"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_gallery"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <ImageButton
             android:id="@+id/img_button_brush"
             android:layout_width="50dp"
