@@ -1,5 +1,6 @@
 package rachman.forniandi.doodledrawingapp
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.os.Build
@@ -17,12 +18,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import rachman.forniandi.doodledrawingapp.databinding.ActivityMainBinding
-import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var mImgButtonCurrentPaint:ImageButton?= null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.imgButtonGallery.setOnClickListener {
             requestStoragePermission()
+        }
+        binding.imgButtonUndo.setOnClickListener {
+            binding.drawingView.onClickUndo()
         }
 
         /*binding.imgButtonGallery.setOnClickListener {
@@ -91,7 +95,8 @@ class MainActivity : AppCompatActivity() {
     private fun requestStoragePermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 this,android.Manifest.permission.READ_EXTERNAL_STORAGE)){
-            showRationaleDialog("DoodleDrawingApp","DoodleDrawingApp " + "needs to access your External Storage")
+            showRationaleDialog(
+                "DoodleDrawingApp","DoodleDrawingApp " + "needs to access your External Storage")
         }else{
             requestPermission.launch(
                 arrayOf(
@@ -109,7 +114,16 @@ class MainActivity : AppCompatActivity() {
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder.setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("Cancel") { dialog, _ ->
+                .setPositiveButton("OK"){ dialog, _ ->
+                    requestPermission.launch(
+                        arrayOf(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        )
+                    )
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
                     dialog.dismiss()
                 }
             builder.create().show()
