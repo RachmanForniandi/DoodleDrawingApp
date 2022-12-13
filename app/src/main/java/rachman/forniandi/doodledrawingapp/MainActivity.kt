@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var mImgButtonCurrentPaint:ImageButton?= null
+    var customProgressDialog: Dialog? = null
 
 
 
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.imgButtonSave.setOnClickListener {
             if (isReadStorageAllowed()){
+                showProgressDialog()
                 lifecycleScope.launch{
                     val myBitmap:Bitmap = getBitmapView(binding.flDrawingViewContainer)
                     saveBitmapFile(myBitmap)
@@ -292,6 +294,7 @@ class MainActivity : AppCompatActivity() {
                     result = file.absolutePath
 
                     runOnUiThread {
+                        cancelProgressDialog()
                         if (!result.isEmpty()){
                             Toast.makeText(
                                 this@MainActivity,
@@ -313,6 +316,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return result
+    }
+
+    private fun showProgressDialog() {
+        customProgressDialog = Dialog(this@MainActivity)
+
+        customProgressDialog?.setContentView(R.layout.dialog_custom_progress)
+
+        customProgressDialog?.show()
+    }
+
+    private fun cancelProgressDialog() {
+        if (customProgressDialog != null){
+            customProgressDialog?.dismiss()
+            customProgressDialog = null
+        }
     }
 
     companion object{
